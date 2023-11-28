@@ -14,7 +14,6 @@ class OnboardingScreen extends StatefulWidget {
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
   int currentStep = 1;
-  String imagePath = AppAssets.onboarding1;
   List<String> descriptions = [
     'Easy to understand voter education under the electoral act of the federation.',
     'Track your voter card and pollen unit easily.',
@@ -22,20 +21,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     'Have fun while learning by playing games.',
   ];
 
+  List<String> imagePaths = [
+    AppAssets.onboarding1,
+    AppAssets.onboarding2,
+    AppAssets.onboarding3,
+    AppAssets.onboarding4,
+  ];
+
   void nextStep() {
     if (currentStep < 4) {
       setState(() {
         currentStep++;
-
-        if (currentStep == 1) {
-          imagePath = AppAssets.onboarding1;
-        } else if (currentStep == 2) {
-          imagePath = AppAssets.onboarding2;
-        } else if (currentStep == 3) {
-          imagePath = AppAssets.onboarding3;
-        } else if (currentStep == 4) {
-          imagePath = AppAssets.onboarding4;
-        }
       });
     } else {
       // Move to the next page after the last step.
@@ -58,7 +54,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: OnboardingStep(
         currentStep: currentStep,
         descriptions: descriptions,
-        imagePath: imagePath,
+        imagePaths: imagePaths,
         onNext: nextStep,
         onSkip: skipOnboarding,
       ),
