@@ -5,10 +5,10 @@ class AppAssets {
 
   static const String profile = 'assets/profile.jpg';
 
-  static const String onboarding1 = 'assets/onboarding/voter_education.png';
-  static const String onboarding2 = 'assets/onboarding/track_voter.png';
-  static const String onboarding3 = 'assets/onboarding/reporting_violence.png';
-  static const String onboarding4 = 'assets/onboarding/games.png';
+  static const String onboarding1 = 'assets/onboarding/1.png';
+  static const String onboarding2 = 'assets/onboarding/2.png';
+  static const String onboarding3 = 'assets/onboarding/3.png';
+  static const String onboarding4 = 'assets/onboarding/4.png';
 
   static const String position1 = 'assets/games/1st_position.png';
   static const String question1 = 'assets/games/question_1.jpg';

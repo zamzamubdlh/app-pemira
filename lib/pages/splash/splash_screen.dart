@@ -1,9 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'dart:async';
 import 'package:flutter/material.dart';
-import '../home.dart';
 import '../../config/app_assets.dart';
+import 'onboard/onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,10 +27,10 @@ class _SplashScreenState extends State<SplashScreen> {
         currentImageIndex = 1;
       });
 
-      // Add a delay for the second logo and move to the main screen.
+      // Add a delay for the second logo and move to the onboarding screen.
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
         );
       });
     });

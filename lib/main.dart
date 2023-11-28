@@ -31,7 +31,7 @@ class MainApp extends StatelessWidget {
               ),
             ),
             padding: const MaterialStatePropertyAll(
-              EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              EdgeInsets.symmetric(horizontal: 16, vertical: 24),
             ),
             textStyle: const MaterialStatePropertyAll(
               TextStyle(fontSize: 16),
