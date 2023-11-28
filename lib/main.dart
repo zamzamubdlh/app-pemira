@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'pages/splash/splash_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -38,11 +39,7 @@ class MainApp extends StatelessWidget {
           ),
         ),
       ),
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+      home: const SplashScreen(),
     );
   }
 }
