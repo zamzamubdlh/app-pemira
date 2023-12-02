@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:pemira_app/config/app_assets.dart';
 import './onboarding_step.dart';
-import '../../home.dart';
+import '../home.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
