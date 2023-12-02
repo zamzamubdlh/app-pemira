@@ -5,6 +5,7 @@ import 'package:d_view/d_view.dart';
 import 'package:pemira_app/config/app_assets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -82,7 +83,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             DView.height(32),
             ElevatedButton(
               onPressed: () {
-                // Tambahkan logika untuk membuat akun
+                // TODO: Add logic to create account
+
+                // Move to the login screen after creating an account
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const LoginScreen(),
+                  ),
+                );
               },
               style: ButtonStyle(
                 backgroundColor: const MaterialStatePropertyAll(
@@ -121,7 +130,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  'Have an account already click? ',
+                  'Have an account already? click ',
                   style: GoogleFonts.openSans(
                     color: AppColor.sentenceSecondary,
                     fontSize: 16,
@@ -130,7 +139,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    // Tambahkan navigasi ke halaman login
+                    // Move to the login screen after creating an account
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    );
                   },
                   child: Text(
                     'LOGIN',
