@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:d_view/d_view.dart';
-import 'package:pemira_app/config/app_assets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
-import 'login_screen.dart';
+import 'account_screen.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({super.key});
+class AccountSettingScreen extends StatefulWidget {
+  const AccountSettingScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<AccountSettingScreen> createState() => _AccountSettingScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final editName = TextEditingController();
-  final editEmail = TextEditingController();
-  final editPhone = TextEditingController();
-  final editPassword = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-
+class _AccountSettingScreenState extends State<AccountSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,57 +21,82 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              DView.height(14),
-              Image.asset(
-                AppAssets.logoName,
+              Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: Container(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 24,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Account Setting',
+                            style: GoogleFonts.openSans(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF1A1A1A),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              DView.height(16),
+              const SizedBox(height: 34),
               Text(
-                'Create an account',
+                'Account Setting',
                 style: GoogleFonts.playfairDisplay(
                   fontSize: 40,
-                  color: AppColor.heading,
                   fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
+                  color: AppColor.heading,
                 ),
               ),
-              DView.height(12),
-              Text(
-                'To create an account with STTB in Vote, kindly fill out the form below.',
-                style: GoogleFonts.openSans(
-                  fontSize: 16,
-                  color: AppColor.sentence,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.normal,
-                ),
-              ),
-              DView.height(32),
+              const SizedBox(height: 34),
               _buildTextFieldWithLabelAndIcon(
                 'Name',
                 'Input your name here',
                 Icons.person,
               ),
-              DView.height(16),
+              const SizedBox(height: 16),
               _buildTextFieldWithLabelAndIcon(
                 'Email',
                 'Input your email here',
                 Icons.email,
               ),
-              DView.height(16),
+              const SizedBox(height: 16),
               _buildTextFieldWithLabelAndIcon(
                 'Phone Number',
                 'Input your phone here',
                 Icons.phone,
               ),
-              DView.height(16),
+              const SizedBox(height: 16),
               _buildTextFieldWithLabelAndIcon(
                 'Password',
                 'Input your password here',
                 Icons.lock,
               ),
-              DView.height(32),
+              const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
                   // TODO: Add logic to create account
@@ -88,7 +105,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
+                      builder: (context) => const AccountScreen(),
                     ),
                   );
                 },
@@ -114,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     vertical: 0,
                   ),
                   child: Text(
-                    'Create Account',
+                    'Save',
                     style: GoogleFonts.openSans(
                       color: AppColor.light,
                       fontSize: 16,
@@ -123,41 +140,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                 ),
-              ),
-              DView.height(16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    'Have an account already? click ',
-                    style: GoogleFonts.openSans(
-                      color: AppColor.sentenceSecondary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      // Move to the login screen after creating an account
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
-                        ),
-                      );
-                    },
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Text(
-                      'LOGIN',
-                      style: GoogleFonts.openSans(
-                        fontSize: 16,
-                        color: AppColor.primary,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ],
               ),
             ],
           ),
@@ -184,7 +166,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             color: AppColor.inputLabel,
           ),
         ),
-        DView.height(6),
+        const SizedBox(height: 6),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(100),

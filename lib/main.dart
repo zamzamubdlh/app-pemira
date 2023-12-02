@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pemira_app/pages/auth/account/account_about.dart';
+import 'package:pemira_app/pages/auth/account/account_previous_vote_screen.dart';
+import 'package:pemira_app/pages/auth/account/account_screen.dart';
+import 'package:pemira_app/pages/auth/account/account_setting_screen.dart';
+import 'package:pemira_app/pages/home.dart';
 import 'config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'pages/splash/splash_screen.dart';
@@ -43,6 +48,13 @@ class MainApp extends StatelessWidget {
         ),
       ),
       home: const SplashScreen(),
+      routes: {
+        '/auth/account': (context) => const AccountScreen(),
+        '/auth/account/setting': (context) => const AccountSettingScreen(),
+        '/auth/account/previous_vote': (context) =>
+            const AccountPreviousVoteScreen(),
+        '/auth/account/about': (context) => const AccountAboutScreen(),
+      },
     );
   }
 }
