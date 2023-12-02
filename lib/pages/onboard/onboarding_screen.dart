@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:pemira_app/config/app_assets.dart';
+import 'package:pemira_app/pages/auth/register_screen.dart';
 import './onboarding_step.dart';
 import '../home.dart';
 
@@ -36,7 +37,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     } else {
       // Move to the next page after the last step.
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
+        MaterialPageRoute(builder: (context) => const RegisterScreen()),
       );
     }
   }
@@ -44,7 +45,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   void skipOnboarding() {
     // Move to the next page when "Skip" is clicked.
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(builder: (context) => const RegisterScreen()),
     );
   }
 
