@@ -98,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Vote',
                 Icons.how_to_vote_outlined,
                 () {
-                  Navigator.pushNamed(context, '/vote');
+                  Navigator.pushNamed(context, '/auth/vote/menu');
                 },
               ),
               _buildMenuItem(

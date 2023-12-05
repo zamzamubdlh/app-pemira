@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
 
-class CandidatesDebatesScreen extends StatelessWidget {
-  const CandidatesDebatesScreen({super.key});
+class VoteMenuScreen extends StatelessWidget {
+  const VoteMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class CandidatesDebatesScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'Debates & Presentation',
+                          'Vote',
                           style: GoogleFonts.openSans(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
@@ -58,7 +58,7 @@ class CandidatesDebatesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 34),
             Text(
-              'Debates & Presentation',
+              'Vote Menu',
               style: GoogleFonts.playfairDisplay(
                 fontSize: 40,
                 fontWeight: FontWeight.w700,
@@ -67,7 +67,7 @@ class CandidatesDebatesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              'Link Debates & Presentation',
+              'Vote n temporary election vote acquisition',
               style: GoogleFonts.openSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -75,19 +75,12 @@ class CandidatesDebatesScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 19),
-            _buildMenuItem(
-                'Presentation 1st Candidate', Icons.open_in_new_outlined, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
+            _buildMenuItem('Vote', () {
+              Navigator.pushNamed(context, '/auth/vote');
             }),
-            _buildMenuItem(
-                'Presentation 2nd Candidate', Icons.open_in_new_outlined, () {
+            _buildMenuItem('Temporary vote acquisition', () {
               Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
-            }),
-            _buildMenuItem('Debates', Icons.open_in_new_outlined, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
+                  context, '/auth/vote/temporary_vote_acquisition');
             }),
           ],
         ),
@@ -95,7 +88,7 @@ class CandidatesDebatesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuItem(String text, IconData icon, VoidCallback onTap) {
+  Widget _buildMenuItem(String text, VoidCallback onTap) {
     return Column(
       children: [
         InkWell(
@@ -124,10 +117,6 @@ class CandidatesDebatesScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: AppColor.heading,
                   ),
-                ),
-                Icon(
-                  icon,
-                  color: AppColor.heading,
                 ),
               ],
             ),
