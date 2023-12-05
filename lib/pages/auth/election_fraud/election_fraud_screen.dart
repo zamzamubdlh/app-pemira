@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
-import 'package:pemira_app/config/app_assets.dart';
 import 'package:pemira_app/pages/auth/candidates/candidates_screen.dart';
 import 'package:pemira_app/pages/home.dart';
 
