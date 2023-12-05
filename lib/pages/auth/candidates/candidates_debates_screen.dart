@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
 
-class CandidatesScreen extends StatelessWidget {
-  const CandidatesScreen({super.key});
+class CandidatesDebatesScreen extends StatelessWidget {
+  const CandidatesDebatesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class CandidatesScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'Candidates',
+                          'Debates & Presentation',
                           style: GoogleFonts.openSans(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
@@ -58,7 +58,7 @@ class CandidatesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 34),
             Text(
-              'Candidates',
+              'Debates & Presentation',
               style: GoogleFonts.playfairDisplay(
                 fontSize: 40,
                 fontWeight: FontWeight.w700,
@@ -67,15 +67,15 @@ class CandidatesScreen extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             _buildMenuItem(
-                'Candidate Registration', Icons.app_registration_outlined, () {
-              Navigator.pushNamed(context, '/auth/account/setting');
+                'Presentation 1st Candidate', Icons.open_in_new_outlined, () {
+              Navigator.pushNamed(context, '/auth/candidates');
             }),
-            _buildMenuItem('Candidate Profile', Icons.person_pin_outlined, () {
-              Navigator.pushNamed(context, '/auth/account/previous_vote');
+            _buildMenuItem(
+                'Presentation 2nd Candidate', Icons.open_in_new_outlined, () {
+              Navigator.pushNamed(context, '/auth/candidates');
             }),
-            _buildMenuItem('Debates & Presentation', Icons.info, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
+            _buildMenuItem('Debates', Icons.open_in_new_outlined, () {
+              Navigator.pushNamed(context, '/auth/candidates');
             }),
           ],
         ),

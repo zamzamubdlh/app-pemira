@@ -3,6 +3,7 @@ import 'package:pemira_app/pages/auth/account/account_about.dart';
 import 'package:pemira_app/pages/auth/account/account_previous_vote_screen.dart';
 import 'package:pemira_app/pages/auth/account/account_screen.dart';
 import 'package:pemira_app/pages/auth/account/account_setting_screen.dart';
+import 'package:pemira_app/pages/auth/candidates/candidates_debates_screen.dart';
 import 'package:pemira_app/pages/auth/candidates/candidates_screen.dart';
 import 'config/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,6 +56,8 @@ class MainApp extends StatelessWidget {
             const AccountPreviousVoteScreen(),
         '/auth/account/about': (context) => const AccountAboutScreen(),
         '/auth/candidates': (context) => const CandidatesScreen(),
+        '/auth/candidates/debates_presentation': (context) =>
+            const CandidatesDebatesScreen(),
       },
     );
   }
