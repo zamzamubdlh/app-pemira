@@ -13,83 +13,85 @@ class CandidatesDebatesScreen extends StatelessWidget {
           horizontal: 16,
           vertical: 24,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Container(
-                      padding: EdgeInsets.zero,
-                      margin: EdgeInsets.zero,
-                      child: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Debates & Presentation',
-                          style: GoogleFonts.openSans(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF1A1A1A),
-                          ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: Container(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 24,
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Debates & Presentation',
+                            style: GoogleFonts.openSans(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF1A1A1A),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 34),
-            Text(
-              'Debates & Presentation',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 40,
-                fontWeight: FontWeight.w700,
-                color: AppColor.heading,
+              const SizedBox(height: 34),
+              Text(
+                'Debates & Presentation',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w700,
+                  color: AppColor.heading,
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              'Link Debates & Presentation',
-              style: GoogleFonts.openSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF666666),
+              const SizedBox(height: 16),
+              Text(
+                'Link Debates & Presentation',
+                style: GoogleFonts.openSans(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF666666),
+                ),
               ),
-            ),
-            const SizedBox(height: 19),
-            _buildMenuItem(
-                'Presentation 1st Candidate', Icons.open_in_new_outlined, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
-            }),
-            _buildMenuItem(
-                'Presentation 2nd Candidate', Icons.open_in_new_outlined, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
-            }),
-            _buildMenuItem('Debates', Icons.open_in_new_outlined, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
-            }),
-          ],
+              const SizedBox(height: 19),
+              _buildMenuItem(
+                  'Presentation 1st Candidate', Icons.open_in_new_outlined, () {
+                Navigator.pushNamed(
+                    context, '/auth/candidates/debates_presentation');
+              }),
+              _buildMenuItem(
+                  'Presentation 2nd Candidate', Icons.open_in_new_outlined, () {
+                Navigator.pushNamed(
+                    context, '/auth/candidates/debates_presentation');
+              }),
+              _buildMenuItem('Debates', Icons.open_in_new_outlined, () {
+                Navigator.pushNamed(
+                    context, '/auth/candidates/debates_presentation');
+              }),
+            ],
+          ),
         ),
       ),
     );
