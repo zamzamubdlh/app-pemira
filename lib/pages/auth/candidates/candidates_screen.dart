@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'package:pemira_app/pages/home.dart';
 
 class CandidatesScreen extends StatelessWidget {
   const CandidatesScreen({super.key});
@@ -24,7 +25,12 @@ class CandidatesScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
+                        );
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -74,7 +80,7 @@ class CandidatesScreen extends StatelessWidget {
               }),
               _buildMenuItem('Candidate Profile', Icons.person_pin_outlined,
                   () {
-                Navigator.pushNamed(context, '/auth/account/previous_vote');
+                Navigator.pushNamed(context, '/auth/candidates/profile');
               }),
               _buildMenuItem('Debates & Presentation', Icons.info, () {
                 Navigator.pushNamed(
