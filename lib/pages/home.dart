@@ -105,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Election Fraud',
                 Icons.error_outline_outlined,
                 () {
-                  Navigator.pushNamed(context, '/election_fraud');
+                  Navigator.pushNamed(context, '/auth/election_fraud');
                 },
               ),
             ],

@@ -7,6 +7,7 @@ import 'package:pemira_app/pages/auth/candidates/candidates_debates_screen.dart'
 import 'package:pemira_app/pages/auth/candidates/candidates_profile_screen.dart';
 import 'package:pemira_app/pages/auth/candidates/candidates_registration_screen.dart';
 import 'package:pemira_app/pages/auth/candidates/candidates_screen.dart';
+import 'package:pemira_app/pages/auth/election_fraud/election_fraud_screen.dart';
 import 'package:pemira_app/pages/auth/vote/temporary_vote_acquisition_screen.dart';
 import 'package:pemira_app/pages/auth/vote/vote_menu_screen.dart';
 import 'package:pemira_app/pages/auth/vote/vote_screen.dart';
@@ -71,6 +72,7 @@ class MainApp extends StatelessWidget {
         '/auth/vote': (context) => const VoteScreen(),
         '/auth/vote/temporary_vote_acquisition': (context) =>
             const TemporaryVoteAcquisitionScreen(),
+        '/auth/election_fraud': (context) => const ElectionFraudScreen(),
       },
     );
   }
