@@ -105,7 +105,7 @@ class _VoteScreenState extends State<VoteScreen> {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const VoteScreen(),
+                builder: (context) => const VoteMenuScreen(),
               ),
             );
           },
