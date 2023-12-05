@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'package:pemira_app/pages/home.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -23,7 +24,12 @@ class AccountScreen extends StatelessWidget {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const HomeScreen(),
+                        ),
+                      );
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'package:pemira_app/pages/auth/account/account_screen.dart';
 
 class AccountPreviousVoteScreen extends StatefulWidget {
   const AccountPreviousVoteScreen({Key? key}) : super(key: key);
@@ -33,7 +34,12 @@ class _AccountPreviousVoteScreenState extends State<AccountPreviousVoteScreen> {
                 children: [
                   InkWell(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AccountScreen(),
+                        ),
+                      );
                     },
                     splashColor: Colors.transparent,
                     highlightColor: Colors.transparent,

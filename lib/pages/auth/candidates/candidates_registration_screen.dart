@@ -26,7 +26,12 @@ class CandidatesRegistrationScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CandidatesScreen(),
+                          ),
+                        );
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,

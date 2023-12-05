@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'package:pemira_app/pages/auth/candidates/candidates_screen.dart';
 
 class CandidatesDebatesScreen extends StatelessWidget {
   const CandidatesDebatesScreen({super.key});
@@ -24,7 +25,12 @@ class CandidatesDebatesScreen extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CandidatesScreen(),
+                          ),
+                        );
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
@@ -78,17 +84,14 @@ class CandidatesDebatesScreen extends StatelessWidget {
               const SizedBox(height: 19),
               _buildMenuItem(
                   'Presentation 1st Candidate', Icons.open_in_new_outlined, () {
-                Navigator.pushNamed(
-                    context, '/auth/candidates/debates_presentation');
+                Navigator.pushNamed(context, '/auth/candidates');
               }),
               _buildMenuItem(
                   'Presentation 2nd Candidate', Icons.open_in_new_outlined, () {
-                Navigator.pushNamed(
-                    context, '/auth/candidates/debates_presentation');
+                Navigator.pushNamed(context, '/auth/candidates');
               }),
               _buildMenuItem('Debates', Icons.open_in_new_outlined, () {
-                Navigator.pushNamed(
-                    context, '/auth/candidates/debates_presentation');
+                Navigator.pushNamed(context, '/auth/candidates');
               }),
             ],
           ),

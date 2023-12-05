@@ -30,7 +30,12 @@ class _AccountSettingScreenState extends State<AccountSettingScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AccountScreen(),
+                          ),
+                        );
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,

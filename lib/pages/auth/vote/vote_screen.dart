@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'package:pemira_app/pages/auth/vote/vote_menu_screen.dart';
 
 class VoteScreen extends StatefulWidget {
   const VoteScreen({super.key});
@@ -34,7 +35,12 @@ class _VoteScreenState extends State<VoteScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const VoteMenuScreen(),
+                          ),
+                        );
                       },
                       splashColor: Colors.transparent,
                       highlightColor: Colors.transparent,
