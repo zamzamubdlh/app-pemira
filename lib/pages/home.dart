@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 'Candidates',
                 Icons.person_2_outlined,
                 () {
-                  Navigator.pushNamed(context, '/candidates');
+                  Navigator.pushNamed(context, '/auth/candidates');
                 },
               ),
               _buildMenuItem(
@@ -118,26 +118,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMenuItem(String text, IconData icon, VoidCallback onTap) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: AppColor.sentence,
-                width: 0.5,
-              ),
-              bottom: BorderSide(
-                color: AppColor.sentence,
-                width: 0.5,
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppColor.sentence,
+                  width: 0.5,
+                ),
+                bottom: BorderSide(
+                  color: AppColor.sentence,
+                  width: 0.5,
+                ),
               ),
             ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              InkWell(
-                onTap: onTap,
-                child: Text(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
                   text,
                   style: GoogleFonts.openSans(
                     fontSize: 20,
@@ -145,12 +145,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: AppColor.heading,
                   ),
                 ),
-              ),
-              Icon(
-                icon,
-                color: AppColor.heading,
-              ),
-            ],
+                Icon(
+                  icon,
+                  color: AppColor.heading,
+                ),
+              ],
+            ),
           ),
         ),
       ],

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
 
-class AccountAboutScreen extends StatelessWidget {
-  const AccountAboutScreen({super.key});
+class CandidatesScreen extends StatelessWidget {
+  const CandidatesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class AccountAboutScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.center,
                         child: Text(
-                          'About',
+                          'Candidates',
                           style: GoogleFonts.openSans(
                             fontSize: 17,
                             fontWeight: FontWeight.w700,
@@ -58,61 +58,66 @@ class AccountAboutScreen extends StatelessWidget {
             ),
             const SizedBox(height: 34),
             Text(
-              'About',
+              'Candidates',
               style: GoogleFonts.playfairDisplay(
                 fontSize: 40,
                 fontWeight: FontWeight.w700,
                 color: AppColor.heading,
               ),
             ),
-            const SizedBox(height: 12),
-            Text(
-              'Mobile Programming 2 Project Pemira Sekolah Tinggi Teknologi Bandung',
-              style: GoogleFonts.openSans(
-                fontSize: 16,
-                fontWeight: FontWeight.w400,
-                color: const Color(0xFF666666),
-              ),
-            ),
-            const SizedBox(height: 54),
-            _buildMenuItem('Dede Sunarwan - 21552011318'),
-            _buildMenuItem('Ridzky Pratama - 21552012005'),
-            _buildMenuItem('Zamzam Ubaidilah - 21552011057'),
+            const SizedBox(height: 32),
+            _buildMenuItem(
+                'Candidate Registration', Icons.app_registration_outlined, () {
+              Navigator.pushNamed(context, '/auth/account/setting');
+            }),
+            _buildMenuItem('Candidate Profile', Icons.person_pin_outlined, () {
+              Navigator.pushNamed(context, '/auth/account/previous_vote');
+            }),
+            _buildMenuItem('Debates & Presentation', Icons.info, () {
+              Navigator.pushNamed(context, '/auth/account/about');
+            }),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildMenuItem(String text) {
+  Widget _buildMenuItem(String text, IconData icon, VoidCallback onTap) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: AppColor.sentence,
-                width: 0.5,
-              ),
-              bottom: BorderSide(
-                color: AppColor.sentence,
-                width: 0.5,
-              ),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                text,
-                style: GoogleFonts.openSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w400,
-                  color: AppColor.heading,
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppColor.sentence,
+                  width: 0.5,
+                ),
+                bottom: BorderSide(
+                  color: AppColor.sentence,
+                  width: 0.5,
                 ),
               ),
-            ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  text,
+                  style: GoogleFonts.openSans(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                    color: AppColor.heading,
+                  ),
+                ),
+                Icon(
+                  icon,
+                  color: AppColor.heading,
+                ),
+              ],
+            ),
           ),
         ),
       ],
