@@ -13,71 +13,75 @@ class CandidatesScreen extends StatelessWidget {
           horizontal: 16,
           vertical: 24,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 14),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    child: Container(
-                      padding: EdgeInsets.zero,
-                      margin: EdgeInsets.zero,
-                      child: const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 24,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          'Candidates',
-                          style: GoogleFonts.openSans(
-                            fontSize: 17,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF1A1A1A),
-                          ),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 14),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: Container(
+                        padding: EdgeInsets.zero,
+                        margin: EdgeInsets.zero,
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 24,
                         ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Candidates',
+                            style: GoogleFonts.openSans(
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              color: const Color(0xFF1A1A1A),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(height: 34),
-            Text(
-              'Candidates',
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 40,
-                fontWeight: FontWeight.w700,
-                color: AppColor.heading,
+              const SizedBox(height: 34),
+              Text(
+                'Candidates',
+                style: GoogleFonts.playfairDisplay(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w700,
+                  color: AppColor.heading,
+                ),
               ),
-            ),
-            const SizedBox(height: 32),
-            _buildMenuItem(
-                'Candidate Registration', Icons.app_registration_outlined, () {
-              Navigator.pushNamed(context, '/auth/account/setting');
-            }),
-            _buildMenuItem('Candidate Profile', Icons.person_pin_outlined, () {
-              Navigator.pushNamed(context, '/auth/account/previous_vote');
-            }),
-            _buildMenuItem('Debates & Presentation', Icons.info, () {
-              Navigator.pushNamed(
-                  context, '/auth/candidates/debates_presentation');
-            }),
-          ],
+              const SizedBox(height: 32),
+              _buildMenuItem(
+                  'Candidate Registration', Icons.app_registration_outlined,
+                  () {
+                Navigator.pushNamed(context, '/auth/candidates/registration');
+              }),
+              _buildMenuItem('Candidate Profile', Icons.person_pin_outlined,
+                  () {
+                Navigator.pushNamed(context, '/auth/account/previous_vote');
+              }),
+              _buildMenuItem('Debates & Presentation', Icons.info, () {
+                Navigator.pushNamed(
+                    context, '/auth/candidates/debates_presentation');
+              }),
+            ],
+          ),
         ),
       ),
     );
