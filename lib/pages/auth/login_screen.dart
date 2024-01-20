@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:d_info/d_info.dart';
 import 'package:d_method/d_method.dart';
 import 'package:flutter/material.dart';

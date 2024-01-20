@@ -3,7 +3,7 @@ class UserModel {
   String name;
   String email;
   String phone;
-  int age;
+  int? age;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -12,7 +12,7 @@ class UserModel {
     required this.name,
     required this.email,
     required this.phone,
-    required this.age,
+    this.age,
     required this.createdAt,
     required this.updatedAt,
   });
