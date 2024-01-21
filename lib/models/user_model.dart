@@ -6,6 +6,7 @@ class UserModel {
   int? age;
   DateTime createdAt;
   DateTime updatedAt;
+  String? token;
 
   UserModel({
     required this.id,
@@ -15,6 +16,7 @@ class UserModel {
     this.age,
     required this.createdAt,
     required this.updatedAt,
+    this.token,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
@@ -25,6 +27,7 @@ class UserModel {
         age: json["age"],
         createdAt: DateTime.parse(json["created_at"]).toLocal(),
         updatedAt: DateTime.parse(json["updated_at"]).toLocal(),
+        token: json["token"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +38,6 @@ class UserModel {
         "age": age,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "token": token,
       };
 }

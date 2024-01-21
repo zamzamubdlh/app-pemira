@@ -82,6 +82,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         (result) {
           AppSession.setUser(result['user']);
           AppSession.setToken(result['token']);
+          AppSession.setId(result['id']);
           DInfo.toastSuccess('Login Success');
 
           setLoginStatus(ref, 'Login Success');

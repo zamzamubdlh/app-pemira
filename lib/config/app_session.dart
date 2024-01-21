@@ -49,4 +49,18 @@ class AppSession {
 
     return success;
   }
+
+  static Future<bool> setId(int id) async {
+    final pref = await SharedPreferences.getInstance();
+    bool success = await pref.setInt('id', id);
+
+    return success;
+  }
+
+  static Future<int?> getId() async {
+    final pref = await SharedPreferences.getInstance();
+    int? id = pref.getInt('it');
+
+    return id;
+  }
 }
