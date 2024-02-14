@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:path/path.dart';
 import 'package:dartz/dartz.dart';
 import 'package:pemira_app/config/app_constants.dart';
 import 'package:pemira_app/config/app_request.dart';
@@ -8,9 +10,7 @@ import 'package:http/http.dart' as http;
 
 class CandidateDatasource {
   static Future<Either<Failure, Map>> registerCandidate(
-    String token,
-    int userId,
-    int age,
+    String age,
     String programStudy,
     String shortDescription,
     String vision,
@@ -26,14 +26,13 @@ class CandidateDatasource {
         url,
         headers: AppRequest.header(),
         body: {
-          'user_id': userId.toString(),
-          'age': age.toString(),
+          'token': await AppSession.getToken(),
+          'user_id': (await AppSession.getId()).toString(),
+          'age': age,
           'program_study': programStudy,
           'short_description': shortDescription,
           'vision': vision,
           'mission': mission,
-          'photo': photo,
-          'reason_for_choice': reasonForChoice,
           'name': name,
         },
       );

@@ -1,11 +1,110 @@
+import 'dart:io';
+
+import 'package:d_info/d_info.dart';
+import 'package:d_view/d_view.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
-import 'package:pemira_app/config/app_assets.dart';
+import 'package:pemira_app/config/app_response.dart';
+import 'package:pemira_app/config/app_session.dart';
+import 'package:pemira_app/config/failure.dart';
+import 'package:pemira_app/datasources/candidate_datasource.dart';
+import 'package:pemira_app/models/user_model.dart';
 import 'package:pemira_app/pages/auth/candidates/candidates_screen.dart';
+import 'package:pemira_app/providers/candidate_provider.dart';
 
-class CandidatesRegistrationScreen extends StatelessWidget {
+class CandidatesRegistrationScreen extends ConsumerStatefulWidget {
   const CandidatesRegistrationScreen({super.key});
+
+  @override
+  ConsumerState<CandidatesRegistrationScreen> createState() => _CandidatesRegistrationScreenState();
+}
+
+class _CandidatesRegistrationScreenState extends ConsumerState<CandidatesRegistrationScreen> {
+  late UserModel user;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  late FilePickerResult? _pickedFileResult;
+  late File _pickedImage;
+
+  TextEditingController programStudyController = TextEditingController();
+  TextEditingController visionController = TextEditingController();
+  TextEditingController missionController = TextEditingController();
+  TextEditingController shortDescController = TextEditingController();
+  TextEditingController reasonController = TextEditingController();
+  TextEditingController photoController = TextEditingController();
+
+  @override
+  void initState() {
+    programStudyController = TextEditingController();
+    visionController = TextEditingController();
+    missionController = TextEditingController();
+    shortDescController = TextEditingController();
+    reasonController = TextEditingController();
+    photoController = TextEditingController();
+
+    AppSession.getUser().then((value) {
+      setState(() {
+        user = value!;
+      });
+    });
+
+    super.initState();
+  }
+
+  void execute() {
+    CandidateDatasource.registerCandidate(
+      user.age.toString(),
+      programStudyController.text,
+      shortDescController.text,
+      visionController.text,
+      missionController.text,
+      _pickedFileResult?.files.single.path ?? '',
+      reasonController.text,
+      user.name,
+    ).then((value) {
+      value.fold(
+        (failure) {
+          String newStatus = '';
+
+          switch (failure.runtimeType) {
+            case ServerFailure:
+              setRegisterCandidateStatus(ref, 'Server Error');
+              break;
+            case NotFoundFailure:
+              setRegisterCandidateStatus(ref, 'Error Not Found');
+              break;
+            case ForbiddenFailure:
+              setRegisterCandidateStatus(ref, 'You don\'t have access');
+              break;
+            case BadRequestFailure:
+              setRegisterCandidateStatus(ref, 'Bad Request');
+              break;
+            case InvalidInputFailure:
+              var newStatus = 'Invalid Input';
+              AppResponse.invalidInput(context, failure.message ?? '{}');
+              setRegisterCandidateStatus(ref, newStatus);
+              break;
+            case UnauthorisedFailure:
+              newStatus = 'Unauthorized';
+              DInfo.toastError(newStatus);
+              break;
+            default:
+              newStatus = failure.message ?? '-';
+              setRegisterCandidateStatus(ref, newStatus);
+              DInfo.toastError(newStatus);
+              break;
+          }
+        },
+        (result) {
+          setRegisterCandidateStatus(ref, 'Success');
+        },
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +163,6 @@ class CandidatesRegistrationScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 34),
-              Text(
-                '1st Candidate',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700,
-                  color: AppColor.heading,
-                ),
-              ),
               const SizedBox(height: 32),
               Text(
                 'Calon PresMa',
@@ -83,44 +173,77 @@ class CandidatesRegistrationScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    AppAssets.profile,
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildInfoItem('Nama:', 'Dede Sunarwan'),
-                      _buildInfoItem('Umur:', '25'),
-                      _buildInfoItem('Program Studi:', 'Teknik Informatika'),
-                    ],
-                  ),
-                ],
+              Form(
+                key: _formKey,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        FilePickerResult? result = await FilePicker.platform.pickFiles(
+                          type: FileType.custom,
+                          allowedExtensions: ['jpg'],
+                        );
+
+                        if (result != null && result.files.isNotEmpty) {
+                          setState(() {
+                            _pickedFileResult = result;
+                            _pickedImage = File(result.files.single.path!);
+                            photoController.text = result.files.single.path!;
+                          });
+                        }
+                      },
+                      child: const Text('Upload Photo'),
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _pickedImage != null
+                            ? Image.file(
+                                _pickedImage,
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              )
+                            : Container(), // Placeholder for image preview
+                        _buildInfoItem('Nama:', user.name),
+                        _buildInfoItem('Umur:', user.age?.toString() ?? "-"),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(height: 34),
               _buildInputItem(
-                  'Penjelasan Singkat', 'Tuliskan penjelasan singkat di sini'),
-              _buildInputItem('Visi', 'Tuliskan visi di sini'),
-              _buildInputItem('Misi', 'Tuliskan misi di sini'),
+                'Program Studi',
+                'eg: Teknik Informatika',
+                programStudyController,
+              ),
               _buildInputItem(
-                  'Why', 'Tuliskan mengapa Anda memilih kandidat ini'),
+                'Penjelasan Singkat',
+                'Tuliskan penjelasan singkat di sini',
+                shortDescController,
+              ),
+              _buildInputItem(
+                'Visi',
+                'Tuliskan visi di sini',
+                visionController,
+              ),
+              _buildInputItem(
+                'Misi',
+                'Tuliskan misi di sini',
+                missionController,
+              ),
+              _buildInputItem(
+                'Why',
+                'Tuliskan mengapa Anda memilih kandidat ini',
+                reasonController,
+              ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CandidatesScreen(),
-                      ),
-                    );
-                  },
+                  onPressed: () => execute(),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
@@ -169,7 +292,7 @@ class CandidatesRegistrationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInputItem(String label, String placeholder) {
+  Widget _buildInputItem(String label, String placeholder, TextEditingController controller) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -198,6 +321,7 @@ class CandidatesRegistrationScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: TextField(
+                controller: controller,
                 decoration: InputDecoration(
                   hintText: placeholder,
                   border: InputBorder.none,
