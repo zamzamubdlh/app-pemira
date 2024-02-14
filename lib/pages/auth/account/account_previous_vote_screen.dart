@@ -1,20 +1,103 @@
 // ignore_for_file: library_private_types_in_public_api
 
+import 'package:d_info/d_info.dart';
+import 'package:d_method/d_method.dart';
+import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pemira_app/config/app_colors.dart';
+import 'package:pemira_app/config/app_response.dart';
+import 'package:pemira_app/config/failure.dart';
+import 'package:pemira_app/datasources/candidate_datasource.dart';
+import 'package:pemira_app/models/candidate_model.dart';
 import 'package:pemira_app/pages/auth/account/account_screen.dart';
+import 'package:pemira_app/providers/candidate_provider.dart';
 
-class AccountPreviousVoteScreen extends StatefulWidget {
+class AccountPreviousVoteScreen extends ConsumerStatefulWidget {
   const AccountPreviousVoteScreen({Key? key}) : super(key: key);
 
   @override
-  _AccountPreviousVoteScreenState createState() =>
-      _AccountPreviousVoteScreenState();
+  _AccountPreviousVoteScreenState createState() => _AccountPreviousVoteScreenState();
 }
 
-class _AccountPreviousVoteScreenState extends State<AccountPreviousVoteScreen> {
+class _AccountPreviousVoteScreenState extends ConsumerState<AccountPreviousVoteScreen> {
   bool isExpanded = false;
+
+  getPreviousVote() {
+    setCandidateStatus(ref, 'Loading');
+
+    CandidateDatasource.listPreviousVote().then((value) {
+      String newStatus = '';
+
+      value.fold(
+        (failure) {
+          switch (failure.runtimeType) {
+            case ServerFailure:
+              DMethod.printTitle('SERVER FAILURE', failure.message.toString());
+              newStatus = 'Server Error';
+              DInfo.toastError(newStatus);
+              break;
+            case NotFoundFailure:
+              DMethod.printTitle('NOT FOUND FAILURE', failure.message.toString());
+              newStatus = 'Error Not Found';
+              DInfo.toastError(newStatus);
+              break;
+            case ForbiddenFailure:
+              DMethod.printTitle('FORBIDDEN FAILURE', failure.message.toString());
+              newStatus = 'You Don\'t Have Access';
+              DInfo.toastError(newStatus);
+              break;
+            case BadRequestFailure:
+              DMethod.printTitle('BAD REQUEST FAILURE', failure.message.toString());
+              newStatus = 'Bad Request';
+              DInfo.toastError(newStatus);
+              break;
+            case InvalidInputFailure:
+              DMethod.printTitle('INVALID FAILURE', failure.message.toString());
+              newStatus = 'Invalid Input';
+              AppResponse.invalidInput(context, failure.message ?? '{}');
+              break;
+            case UnauthorisedFailure:
+              DMethod.printTitle('UNAUTHORIZED FAILURE', failure.message.toString());
+              newStatus = 'Login Failed';
+              DInfo.toastError(newStatus);
+              break;
+            default:
+              DMethod.printTitle('DEFAULT FAILURE', failure.message.toString());
+              newStatus = 'Request Error';
+              DInfo.toastError(newStatus);
+              newStatus = failure.message ?? '-';
+              break;
+          }
+
+          setCandidateStatus(ref, newStatus);
+        },
+        (result) {
+          DInfo.toastSuccess('Get List Previous Vote Success');
+          setCandidateStatus(ref, 'Get List Previous Vote Success');
+
+          List data = result['data'];
+          List<CandidateModel> previousVotes = data.map((e) => CandidateModel.fromJson(e)).toList();
+
+          ref.read(previousVoteListProvider.notifier).setData(previousVotes);
+        },
+      );
+    });
+  }
+
+  refresh() {
+    getPreviousVote();
+  }
+
+  @override
+  void initState() {
+    Future(() {
+      refresh();
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +166,18 @@ class _AccountPreviousVoteScreenState extends State<AccountPreviousVoteScreen> {
             ),
             const SizedBox(height: 32),
             _buildCollapsibleMenuItem(),
-            const SizedBox(height: 38),
+            const SizedBox(height: 18),
             if (isExpanded)
-              Column(
-                children: [
-                  _buildMenuItem('2022 - Name'),
-                  _buildMenuItem('2021 - Name'),
-                  _buildMenuItem('2020 - Name'),
-                  _buildMenuItem('2019 - Name'),
-                  _buildMenuItem('2018 - Name'),
-                ],
+              Consumer(
+                builder: (_, wiRef, __) {
+                  List<CandidateModel> candidates = wiRef.watch(previousVoteListProvider);
+
+                  return Column(
+                    children: candidates.map((candidate) {
+                      return _buildMenuItem('${candidate.year} - ${candidate.candidateName}');
+                    }).toList(),
+                  );
+                },
               ),
           ],
         ),
@@ -123,9 +208,7 @@ class _AccountPreviousVoteScreenState extends State<AccountPreviousVoteScreen> {
                   ),
                 ),
                 Icon(
-                  isExpanded
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
+                  isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
                 ),
               ],
             ),

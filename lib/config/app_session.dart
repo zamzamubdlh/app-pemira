@@ -59,7 +59,7 @@ class AppSession {
 
   static Future<int?> getId() async {
     final pref = await SharedPreferences.getInstance();
-    int? id = pref.getInt('it');
+    int? id = pref.getInt('id');
 
     return id;
   }
