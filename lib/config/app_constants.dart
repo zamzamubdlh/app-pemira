@@ -1,5 +1,5 @@
 class AppConstants {
-  static const appName = 'D Laundry';
+  static const appName = 'Pemira App';
 
   static const _host = 'https://pemira-app.000webhostapp.com';
 

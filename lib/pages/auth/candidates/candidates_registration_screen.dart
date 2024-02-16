@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:d_info/d_info.dart';
@@ -23,12 +25,9 @@ class CandidatesRegistrationScreen extends ConsumerStatefulWidget {
 }
 
 class _CandidatesRegistrationScreenState extends ConsumerState<CandidatesRegistrationScreen> {
-  late UserModel user;
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late FilePickerResult? _pickedFileResult;
-  late File _pickedImage;
 
   TextEditingController programStudyController = TextEditingController();
   TextEditingController visionController = TextEditingController();
@@ -37,34 +36,19 @@ class _CandidatesRegistrationScreenState extends ConsumerState<CandidatesRegistr
   TextEditingController reasonController = TextEditingController();
   TextEditingController photoController = TextEditingController();
 
-  @override
-  void initState() {
-    programStudyController = TextEditingController();
-    visionController = TextEditingController();
-    missionController = TextEditingController();
-    shortDescController = TextEditingController();
-    reasonController = TextEditingController();
-    photoController = TextEditingController();
+  execute(age, name) {
+    List<int> imageBytes = File(_pickedFileResult?.files.single.path ?? '').readAsBytesSync();
+    String base64Image = base64Encode(imageBytes);
 
-    AppSession.getUser().then((value) {
-      setState(() {
-        user = value!;
-      });
-    });
-
-    super.initState();
-  }
-
-  void execute() {
     CandidateDatasource.registerCandidate(
-      user.age.toString(),
+      age.toString(),
       programStudyController.text,
       shortDescController.text,
       visionController.text,
       missionController.text,
-      _pickedFileResult?.files.single.path ?? '',
+      base64Image,
       reasonController.text,
-      user.name,
+      name,
     ).then((value) {
       value.fold(
         (failure) {
@@ -81,6 +65,7 @@ class _CandidatesRegistrationScreenState extends ConsumerState<CandidatesRegistr
               setRegisterCandidateStatus(ref, 'You don\'t have access');
               break;
             case BadRequestFailure:
+              DInfo.toastError(jsonDecode(failure.message.toString())['message']);
               setRegisterCandidateStatus(ref, 'Bad Request');
               break;
             case InvalidInputFailure:
@@ -100,6 +85,7 @@ class _CandidatesRegistrationScreenState extends ConsumerState<CandidatesRegistr
           }
         },
         (result) {
+          DInfo.toastSuccess('Candidate successfully registered');
           setRegisterCandidateStatus(ref, 'Success');
         },
       );
@@ -107,162 +93,181 @@ class _CandidatesRegistrationScreenState extends ConsumerState<CandidatesRegistr
   }
 
   @override
+  void initState() {
+    _pickedFileResult = null;
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 24,
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 14),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CandidatesScreen(),
-                          ),
-                        );
-                      },
-                      splashColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      child: Container(
-                        padding: EdgeInsets.zero,
-                        margin: EdgeInsets.zero,
-                        child: const Icon(
-                          Icons.arrow_back_ios_new_rounded,
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+    return FutureBuilder(
+      future: AppSession.getUser(),
+      builder: (context, snapshot) {
+        if (snapshot.data == null) return DView.loadingCircle();
+
+        UserModel user = snapshot.data!;
+
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 24,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 14),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            'Candidates Registration',
-                            style: GoogleFonts.openSans(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xFF1A1A1A),
+                        InkWell(
+                          onTap: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const CandidatesScreen(),
+                              ),
+                            );
+                          },
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Container(
+                            padding: EdgeInsets.zero,
+                            margin: EdgeInsets.zero,
+                            child: const Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              size: 24,
                             ),
                           ),
                         ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                'Candidates Registration',
+                                style: GoogleFonts.openSans(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.w700,
+                                  color: const Color(0xFF1A1A1A),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
-              Text(
-                'Calon PresMa',
-                style: GoogleFonts.openSans(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xFF999999),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Form(
-                key: _formKey,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        FilePickerResult? result = await FilePicker.platform.pickFiles(
-                          type: FileType.custom,
-                          allowedExtensions: ['jpg'],
-                        );
-
-                        if (result != null && result.files.isNotEmpty) {
-                          setState(() {
-                            _pickedFileResult = result;
-                            _pickedImage = File(result.files.single.path!);
-                            photoController.text = result.files.single.path!;
-                          });
-                        }
-                      },
-                      child: const Text('Upload Photo'),
+                  ),
+                  const SizedBox(height: 32),
+                  Text(
+                    'Calon PresMa',
+                    style: GoogleFonts.openSans(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFF999999),
                     ),
-                    const SizedBox(width: 16),
-                    Column(
+                  ),
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _pickedImage != null
-                            ? Image.file(
-                                _pickedImage,
-                                width: 200,
-                                height: 200,
-                                fit: BoxFit.cover,
-                              )
-                            : Container(), // Placeholder for image preview
-                        _buildInfoItem('Nama:', user.name),
-                        _buildInfoItem('Umur:', user.age?.toString() ?? "-"),
+                        ElevatedButton(
+                          onPressed: () async {
+                            FilePickerResult? result = await FilePicker.platform.pickFiles(
+                              type: FileType.custom,
+                              allowedExtensions: ['jpg'],
+                            );
+
+                            if (result != null && result.files.isNotEmpty) {
+                              setState(() {
+                                _pickedFileResult = result;
+                                photoController.text = result.files.single.path!;
+                              });
+                            } else {
+                              DInfo.toastError('Please select an image');
+                              return;
+                            }
+                          },
+                          child: const Text('Upload Photo'),
+                        ),
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _buildInfoItem('Nama:', user.name),
+                            _buildInfoItem('Umur:', user.age?.toString() ?? "-"),
+                          ],
+                        ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 34),
-              _buildInputItem(
-                'Program Studi',
-                'eg: Teknik Informatika',
-                programStudyController,
-              ),
-              _buildInputItem(
-                'Penjelasan Singkat',
-                'Tuliskan penjelasan singkat di sini',
-                shortDescController,
-              ),
-              _buildInputItem(
-                'Visi',
-                'Tuliskan visi di sini',
-                visionController,
-              ),
-              _buildInputItem(
-                'Misi',
-                'Tuliskan misi di sini',
-                missionController,
-              ),
-              _buildInputItem(
-                'Why',
-                'Tuliskan mengapa Anda memilih kandidat ini',
-                reasonController,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => execute(),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(100),
+                  ),
+                  const SizedBox(height: 34),
+                  _buildInputItem(
+                    'Program Studi',
+                    'eg: Teknik Informatika',
+                    programStudyController,
+                  ),
+                  _buildInputItem(
+                    'Penjelasan Singkat',
+                    'Tuliskan penjelasan singkat di sini',
+                    shortDescController,
+                  ),
+                  _buildInputItem(
+                    'Visi',
+                    'Tuliskan visi di sini',
+                    visionController,
+                  ),
+                  _buildInputItem(
+                    'Misi',
+                    'Tuliskan misi di sini',
+                    missionController,
+                  ),
+                  _buildInputItem(
+                    'Why',
+                    'Tuliskan mengapa Anda memilih kandidat ini',
+                    reasonController,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        if (_pickedFileResult == null || _pickedFileResult!.files.isEmpty) {
+                          DInfo.toastError('Please select an image');
+                          return;
+                        } else {
+                          if (_formKey.currentState!.validate()) {
+                            execute(user.age, user.name);
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                        ),
+                      ),
+                      child: Text(
+                        'Save',
+                        style: GoogleFonts.openSans(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.light,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Text(
-                    'Save',
-                    style: GoogleFonts.openSans(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: AppColor.light,
-                    ),
-                  ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 

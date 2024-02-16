@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:path/path.dart';
 import 'package:dartz/dartz.dart';
 import 'package:pemira_app/config/app_constants.dart';
 import 'package:pemira_app/config/app_request.dart';
@@ -33,6 +31,8 @@ class CandidateDatasource {
           'short_description': shortDescription,
           'vision': vision,
           'mission': mission,
+          'photo': photo,
+          'reason_for_choice': reasonForChoice,
           'name': name,
         },
       );
