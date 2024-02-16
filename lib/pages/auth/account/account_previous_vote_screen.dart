@@ -2,7 +2,6 @@
 
 import 'package:d_info/d_info.dart';
 import 'package:d_method/d_method.dart';
-import 'package:d_view/d_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -167,18 +166,18 @@ class _AccountPreviousVoteScreenState extends ConsumerState<AccountPreviousVoteS
             const SizedBox(height: 32),
             _buildCollapsibleMenuItem(),
             const SizedBox(height: 18),
-            if (isExpanded)
-              Consumer(
-                builder: (_, wiRef, __) {
-                  List<CandidateModel> candidates = wiRef.watch(previousVoteListProvider);
+            Consumer(
+              builder: (_, wiRef, __) {
+                List<CandidateModel> candidates = wiRef.watch(previousVoteListProvider);
 
-                  return Column(
-                    children: candidates.map((candidate) {
+                return Column(children: [
+                  if (isExpanded)
+                    ...candidates.map((candidate) {
                       return _buildMenuItem('${candidate.year} - ${candidate.candidateName}');
                     }).toList(),
-                  );
-                },
-              ),
+                ]);
+              },
+            ),
           ],
         ),
       ),

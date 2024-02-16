@@ -25,3 +25,14 @@ class PreviousVoteList extends StateNotifier<List<CandidateModel>> {
     state = newData;
   }
 }
+
+final candidateThisYearListProvider =
+    StateNotifierProvider.autoDispose<CandidateThisYearList, List<CandidateModel>>((ref) => CandidateThisYearList([]));
+
+class CandidateThisYearList extends StateNotifier<List<CandidateModel>> {
+  CandidateThisYearList(super.state);
+
+  setData(List<CandidateModel> newData) {
+    state = newData;
+  }
+}
