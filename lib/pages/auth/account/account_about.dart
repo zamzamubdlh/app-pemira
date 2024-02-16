@@ -84,6 +84,15 @@ class AccountAboutScreen extends StatelessWidget {
             _buildMenuItem('Dede Sunarwan - 21552011318'),
             _buildMenuItem('Ridzky Pratama - 21552012005'),
             _buildMenuItem('Zamzam Ubaidilah - 21552011057'),
+            const SizedBox(height: 54),
+            Text(
+              'Aplikasi untuk pemilihan umum PresMa setiap 1 tahun sekali.',
+              style: GoogleFonts.openSans(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xFF666666),
+              ),
+            )
           ],
         ),
       ),
